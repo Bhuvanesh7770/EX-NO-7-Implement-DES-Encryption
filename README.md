@@ -12,52 +12,38 @@ To use the Data Encryption Standard (DES) algorithm for a practical application,
 4. DES applies initial and final permutations along with 16 rounds of substitution and permutation transformations to produce ciphertext.
 
 ## Program:
-~~~
+```c
 #include <stdio.h>
- #include <string.h>
- void encrypt(char *message, char *key, char *encryptedMessage, int
- messageLength) {
- int keyLength = strlen(key);
- for (int i = 0; i < messageLength; i++) {
- encryptedMessage[i] = message[i] ^ key[i % keyLength];
- }
- encryptedMessage[messageLength] = '\0'; 
- }
- void decrypt(char *encryptedMessage, char *key, char *decryptedMessage, int
- messageLength) {
- int keyLength = strlen(key);
- for (int i = 0; i < messageLength; i++) {
- decryptedMessage[i] = encryptedMessage[i] ^ key[i % keyLength];
- }
- decryptedMessage[messageLength] = '\0'; 
- }
- int main() {
- char message[100];
- char key[100];
- printf("\n**Simulation of DES encryption and decryption\n\n");
- printf("Enter the message to encrypt: ");
- fgets(message, sizeof(message), stdin);
- message[strcspn(message, "\n")] = '\0'; 
- printf("Enter the encryption key: ");
- fgets(key, sizeof(key), stdin);
- key[strcspn(key, "\n")] = '\0'; 
- int messageLength = strlen(message);
- char encryptedMessage[100];
- char decryptedMessage[100];
- encrypt(message, key, encryptedMessage, messageLength);
- printf("Original Message: %s\n", message);
- printf("Encrypted Message: ");
- for (int i = 0; i < messageLength; i++) {
- printf("%02X ", (unsigned char)encryptedMessage[i]);
- }
+#include <string.h>
+void xorCrypt(char *in, char *key, char *out, int len)
+{
+ for (int i = 0; i < len; i++) out[i] = in[i] ^ key[i % strlen(key)];
+ out[len] = 0;
+}
+int main()
+{
+ char msg[100], key[100], enc[100], dec[100];
+ printf("Enter message: "); fgets(msg, 100, stdin);
+ msg[strcspn(msg, "\n")] = 0;
+ printf("Enter key: "); fgets(key, 100, stdin);
+ key[strcspn(key, "\n")] = 0;
+ int len = strlen(msg);
+ xorCrypt(msg, key, enc, len);
+ printf("Encrypted: ");
+ for (int i = 0; i < len; i++) printf("%02X ", (unsigned char)enc[i]);
  printf("\n");
- decrypt(encryptedMessage, key, decryptedMessage, messageLength);
- printf("Decrypted Message: %s\n", decryptedMessage);
+ xorCrypt(enc, key, dec, len);
+ printf("Decrypted: %s\n", dec);
  return 0;
- }
-~~~
+}
+```
+
+
+
 ## Output:
-<img width="1920" height="1200" alt="Screenshot (22)" src="https://github.com/user-attachments/assets/1725b070-4544-43f4-a85d-083be9696d68" />
+<img width="515" height="351" alt="image" src="https://github.com/user-attachments/assets/bb5c1528-c69e-4b14-8ab7-5f1bcb42d2a5" />
+
+
 ## Result:
-  The program is executed successfully
+  The program is executed successfully.
 
